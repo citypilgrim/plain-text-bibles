@@ -1,0 +1,3 @@
+[submodule "sword-to-org"]
+	path = sword-to-org
+	url = git@github.com:alphapapa/sword-to-org.git
