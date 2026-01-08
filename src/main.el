@@ -22,3 +22,8 @@
 
 ;; Generate all chapters
 (bible-org-generate-all)
+
+;; becareful when using this
+;; (dolist (file (directory-files bible-org-output-directory  t "\\.org$"))
+;;       (with-current-buffer (find-file-noselect file)
+;;         (org-hugo-export-wim-to-md)))
