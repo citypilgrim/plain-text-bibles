@@ -101,20 +101,28 @@
                 bible-org-module book-num file-code chapter book-name))
          (title (format "%s %d" abbrev chapter))
          (passage (format "%s %d" book-name chapter)))
-    (with-temp-buffer
+    (with-temp-file file
       (org-mode)
-      (insert ":PROPERTIES:\n")
-      (insert ":ID: " (org-id-new) "\n")
-      (insert ":END:\n")
-      (insert "#+TITLE: " title "\n")
-      (insert "#+FILETAGS: :bible:" (downcase bible-org-module) ":christian:\n")
-      (insert "* " title "\n\n")
-      (dolist (verse (sword-to-org--diatheke-parse-text
-                      (sword-to-org--diatheke-get-text bible-org-module passage)))
-        (insert (format "%d %s\n"
+      (setq buffer-file-name file)
+
+      (org-id-get-create)
+      (goto-char (point-max))
+
+      (insert "#+title: " title "\n")
+      (insert "#+date: " (format-time-string "[%Y-%m-%d]") "\n")
+      (insert "#+hugo_lastmod: " (format-time-string "[%Y-%m-%d]") "\n")
+      (insert "#+filetags: :bible:" (downcase bible-org-module) ":faith:\n")
+      (insert "\n")
+
+      (dolist (verse
+               (sword-to-org--diatheke-parse-text
+                (sword-to-org--diatheke-get-text
+                 bible-org-module passage)))
+        (insert (format "%d. %s\n"
                         (plist-get verse :verse)
                         (plist-get verse :text))))
-      (write-region (point-min) (point-max) file nil 'silent))))
+
+      (set-buffer-modified-p nil))))
 
 ;;;###autoload
 (defun bible-org-generate-all ()

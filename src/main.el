@@ -18,7 +18,7 @@
 ;; User configuration
 (setq bible-org-module "BSB")
 (setq bible-org-output-directory
-      (expand-file-name "bible/bsb/" project-root))
+      "~/manual/bible/")
 
 ;; Generate all chapters
 (bible-org-generate-all)
